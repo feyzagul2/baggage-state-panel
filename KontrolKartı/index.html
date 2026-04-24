@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Kontrol Kartı</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="window">
+
+  <!-- TITLEBAR: sarı=minimize(sol alta), yeşil=maximize, kırmızı=kapat -->
+  <div id="titlebar">
+    <div class="tl">
+      <div class="ticon">⚙</div>
+      <div class="ttitle">Kontrol Kartı — X-Ray Sistem Yönetimi</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="color:#484f58;font-size:10px;">v2.4.0</span>
+      <div class="wcs">
+        <div class="wc wc-n" onclick="toggleMin()"></div>
+        <div class="wc wc-m" onclick="toggleMax()"></div>
+        <div class="wc wc-x" onclick="document.getElementById('window').style.display='none'"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content" id="mc">
+    <div class="scroll-area">
+
+      <div class="card">
+        <div class="card-head">
+          <div class="cdot cdot-blue"></div>
+          <div class="chtitle chtitle-blue">Kontrol Kartı</div>
+        </div>
+        <div class="card-body">
+
+          <div class="sub-lbl">☢ XRay Power</div>
+          <div class="sub">
+            <div class="btn-row">
+              <button class="cb b-def" id="btn-xrp" onclick="toggleXRayPower(this)">XRayPower</button>
+              <button class="cb b-def" id="btn-il1" onclick="toggleInterlock(this,1)">XRayInterlock 1</button>
+              <button class="cb b-def" id="btn-il2" onclick="toggleInterlock(this,2)">XRayInterlock 2</button>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="sub-lbl">📡 Bilgi Al</div>
+          <div class="sub">
+            <div class="btn-row">
+              <button class="cb b-orange" id="btn-hata-temizle" onclick="log('Hata mesajları temizlendi')">Hata Mesajı Temizle</button>
+              <button class="cb b-orange" id="btn-hata-al"      onclick="log('Hata Mesajları:\n → ERR_001: XRay bağlantı hatası\n → ERR_002: Motor zaman aşımı')">Hata Mesajı Al</button>
+              <button class="cb b-blue"   id="btn-bilgi-al"     onclick="bilgiAl()">Bilgi Al</button>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="sub-lbl">⏱ Sorgu Süresi</div>
+          <div class="sub">
+            <div class="inline-row">
+              <button class="cb b-cyan" id="btn-sorgu-al"  onclick="sorguAl()">Sorgu Süresi Al</button>
+              <input class="vinp" id="sorgu-gir" placeholder="ms girin...">
+              <button class="cb b-cyan" id="btn-sorgu-gir" onclick="sorguGir()">Gir</button>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="sub-lbl">⌛ Timeout Süresi</div>
+          <div class="sub">
+            <div class="inline-row">
+              <button class="cb b-purple" id="btn-timeout-al"  onclick="toAl()">Timeout Süresi Al</button>
+              <input class="vinp" id="timeout-gir" placeholder="ms girin...">
+              <button class="cb b-purple" id="btn-timeout-gir" onclick="toGir()">Gir</button>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="sub-lbl">🔢 Sorgu Listesi Boyut</div>
+          <div class="sub">
+            <div class="btn-row">
+              <button class="cb b-blue" id="btn-sorgu-boyut"    onclick="log('SorguListesiBoyut: 24 kayıt')">SorguListesiBoyut</button>
+              <button class="cb b-def"  id="btn-iplist"         onclick="log('IpList sorgulandı')">IpList</button>
+              <button class="cb b-def"  id="btn-seriport-bilgi" onclick="log('SeriportBilgi → COM3 | 115200 | Bağlı')">SeriportBilgi</button>
+              <button class="cb b-def"  id="btn-seriport-durum" onclick="log('SeriportDurum: AKTİF')">SeriportDurum</button>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="sub-lbl">🔧 Genel</div>
+          <div class="sub">
+            <div class="btn-row">
+              <button class="cb b-def" id="btn-buzzer"     onclick="toggleBuzzer(this)">Buzzer</button>
+              <button class="cb b-def" id="btn-flashor"    onclick="toggleFlashor(this)">Flashor</button>
+              <button class="cb b-def" id="btn-shutdown"   onclick="log('Shutdown komutu gönderildi')">Shutdown</button>
+              <button class="cb b-def" id="btn-clearerror" onclick="log('ClearError komutu gönderildi')">ClearError</button>
+              <button class="cb b-def" id="btn-motor"      onclick="toggleMotor(this)">MotorPower</button>
+              <button class="cb b-def" id="btn-syspower"   onclick="log('SystemPower komutu gönderildi')">SystemPower</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div id="editor-panel">
+      <div id="resize-handle"></div>
+      <div class="editor-head">
+        <div class="etitle"><span style="color:#3fb950">●</span> Çıktı / Log Ekranı</div>
+        <div style="display:flex;gap:6px">
+          <button class="eclr" onclick="document.getElementById('out').value=''">✕ Temizle</button>
+          <button class="eclr" style="border-color:#238636;color:#3fb950;" onclick="kaydet()">💾 Kaydet</button>
+        </div>
+      </div>
+      <textarea id="out" readonly placeholder="► Butonlara basarak sonuçları burada görebilirsiniz..."></textarea>
+    </div>
+
+  </div>
+
+  <div class="statusbar">
+    <div class="si"><div class="sdot"></div> Bağlı</div>
+    <div class="si">IP: 192.168.1.100</div>
+    <div class="si">Port: 8080</div>
+    <div class="si">Sistem: AKTİF</div>
+  </div>
+
+</div>
+<script src="kontrol_paneli.js"></script>
+</body>
+</html>
