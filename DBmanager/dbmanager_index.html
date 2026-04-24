@@ -1,0 +1,246 @@
+<!-- ── dbmanager.html ── -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>DB Manager</title>
+<link rel="stylesheet" href="dbmanager.css">
+</head>
+<body>
+<div id="window">
+
+  <div id="titlebar">
+    <div class="tl">
+      <div class="ticon">🗄</div>
+      <div class="ttitle">DB Manager — Veritabanı Yönetim Paneli</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="color:#484f58;font-size:10px;">v1.0.0</span>
+      <div class="wcs">
+        <div class="wc wc-n" onclick="toggleMin()"></div>
+        <div class="wc wc-m" onclick="toggleMax()"></div>
+        <div class="wc wc-x" onclick="document.getElementById('window').style.display='none'"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content" id="mc">
+    <div class="scroll-area">
+
+      <!-- ═══ JSON ═══ -->
+      <div class="card">
+        <div class="card-head">
+          <div class="cdot cdot-blue"></div>
+          <div class="chtitle chtitle-blue">JSON</div>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <button class="cb b-blue" id="btn-json-ekle" onclick="log('JSONEkle → program:'+v('je-program')+' anahtar:'+v('je-anahtar')+' jsonData:'+v('je-jsondata'))">JsonEkle</button>
+            <input class="inp inp-md" id="je-program" placeholder="program">
+            <input class="inp inp-md" id="je-anahtar" placeholder="anahtar">
+            <textarea class="ta" id="je-jsondata" placeholder="jsonData"></textarea>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-cyan" id="btn-json-getir" onclick="log('JSONGetir → program:'+v('jg-program')+' anahtar:'+v('jg-anahtar'))">JsonGetir</button>
+            <input class="inp inp-md" id="jg-program" placeholder="program">
+            <input class="inp inp-md" id="jg-anahtar" placeholder="anahtar">
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-orange" id="btn-json-guncelle" onclick="log('JSONGuncelle → program:'+v('jgu-program')+' anahtar:'+v('jgu-anahtar')+' yeniJsonData:'+v('jgu-yeni'))">JSONGuncelle</button>
+            <input class="inp inp-md" id="jgu-program" placeholder="program">
+            <input class="inp inp-md" id="jgu-anahtar" placeholder="anahtar">
+            <textarea class="ta" id="jgu-yeni" placeholder="yeniJsonData"></textarea>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-red" id="btn-json-sil" onclick="log('JSONSil → program:'+v('js-program')+' anahtar:'+v('js-anahtar'))">JSONSil</button>
+            <input class="inp inp-md" id="js-program" placeholder="program">
+            <input class="inp inp-md" id="js-anahtar" placeholder="anahtar">
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-purple" id="btn-json-bul" onclick="log('JSONBul → program:'+v('jb-program')+' anahtarFiltresi:'+v('jb-anahtarf')+' degerFiltresi:'+v('jb-degerf'))">JSONBul</button>
+            <input class="inp inp-md" id="jb-program"  placeholder="program">
+            <input class="inp inp-md" id="jb-anahtarf" placeholder="anahtarFiltresi">
+            <input class="inp inp-md" id="jb-degerf"   placeholder="degerFiltresi">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ═══ ANAHTAR-DEĞER ═══ -->
+      <div class="card">
+        <div class="card-head">
+          <div class="cdot cdot-green"></div>
+          <div class="chtitle chtitle-green">Anahtar-Değer</div>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <button class="cb b-green" id="btn-ad-ekle" onclick="log('anahtarDegerEkle → program:'+v('ade-program')+' anahtar:'+v('ade-anahtar')+' deger:'+v('ade-deger'))">anahtarDegerEkle</button>
+            <input class="inp inp-md" id="ade-program" placeholder="program">
+            <input class="inp inp-md" id="ade-anahtar" placeholder="anahtar">
+            <input class="inp inp-md" id="ade-deger"   placeholder="deger">
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-cyan" id="btn-ad-getir" onclick="log('anahtarDegerGetir → program:'+v('adg-program')+' anahtar:'+v('adg-anahtar'))">anahtarDegerGetir</button>
+            <input class="inp inp-md" id="adg-program" placeholder="program">
+            <input class="inp inp-md" id="adg-anahtar" placeholder="anahtar">
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-orange" id="btn-ad-guncelle" onclick="log('anahtarDegerGuncelle → program:'+v('adgu-program')+' anahtar:'+v('adgu-anahtar')+' yeniDeger:'+v('adgu-yeni'))">anahtarDegerGuncelle</button>
+            <input class="inp inp-md" id="adgu-program" placeholder="program">
+            <input class="inp inp-md" id="adgu-anahtar" placeholder="anahtar">
+            <input class="inp inp-md" id="adgu-yeni"    placeholder="yeniDeger">
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-red" id="btn-ad-sil" onclick="log('anahtarDegerSil → program:'+v('ads-program')+' anahtar:'+v('ads-anahtar'))">anahtarDegerSil</button>
+            <input class="inp inp-md" id="ads-program" placeholder="program">
+            <input class="inp inp-md" id="ads-anahtar" placeholder="anahtar">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ═══ KULLANICI ═══ -->
+      <div class="card">
+        <div class="card-head">
+          <div class="cdot cdot-orange"></div>
+          <div class="chtitle chtitle-orange">Kullanıcı</div>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <button class="cb b-green" id="btn-k-giris" onclick="log('kullaniciGiris → kullaniciAdi:'+v('kg-adi')+' parola:'+v('kg-parola')+' sistemAdi:'+v('kg-sistem'))">kullaniciGiris</button>
+            <input class="inp inp-md" id="kg-adi"    placeholder="kullaniciAdi">
+            <input class="inp inp-md" id="kg-parola" placeholder="parola">
+            <input class="inp inp-md" id="kg-sistem" placeholder="sistemAdi">
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-orange" id="btn-k-cikis" onclick="log('kullaniciCikis → oturumToken:'+v('kc-token'))">kullaniciCikis</button>
+            <input class="inp inp-lg" id="kc-token" placeholder="oturumToken">
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-red" id="btn-k-sil" onclick="log('kullaniciSil → kullaniciAdi:'+v('ks-adi'))">kullaniciSil</button>
+            <input class="inp inp-md" id="ks-adi" placeholder="kullaniciAdi">
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-orange" id="btn-k-guncelle" onclick="log('kullaniciGuncelle → kullaniciAdi:'+v('kgu-adi')+' yeniVeri:'+v('kgu-yeni'))">kullaniciGuncelle</button>
+            <input class="inp inp-md" id="kgu-adi"  placeholder="kullaniciAdi">
+            <input class="inp inp-lg" id="kgu-yeni" placeholder="yeniVeri (JSON)">
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-blue" id="btn-k-ekle" onclick="log('kullaniciEkle → yeniKullaniciAdi:'+v('ke-adi')+' yeniParola:'+v('ke-parola')+' yetkiliSistemler:'+v('ke-yetki'))">kullaniciEkle</button>
+            <input class="inp inp-md" id="ke-adi"    placeholder="yeniKullaniciAdi">
+            <input class="inp inp-md" id="ke-parola" placeholder="yeniParola">
+            <input class="inp inp-lg" id="ke-yetki"  placeholder="yetkiliSistemler">
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-cyan" id="btn-k-oturum" onclick="log('oturumDogrula → oturumToken:'+v('od-token'))">oturumDogrula</button>
+            <input class="inp inp-lg" id="od-token" placeholder="oturumToken">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ═══ SAYAÇLAR ═══ -->
+      <div class="card">
+        <div class="card-head">
+          <div class="cdot cdot-cyan"></div>
+          <div class="chtitle chtitle-cyan">Sayaçlar</div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <button class="cb b-cyan" id="btn-genel-sayac"    onclick="log('genelSorguSayisiAl çağrıldı')">genelSorguSayisiAl</button>
+            <button class="cb b-cyan" id="btn-ozyineli-sayac" onclick="log('ozyineliSorguSayisiAl çağrıldı')">ozyineliSorguSayisiAl</button>
+            <button class="cb b-red"  id="btn-sayac-sifirla"  onclick="log('sayaclariSifirla çağrıldı')">sayaclariSifirla</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ YETKİLENDİRME ═══ -->
+      <div class="card">
+        <div class="card-head">
+          <div class="cdot cdot-purple"></div>
+          <div class="chtitle chtitle-purple">Yetkilendirme</div>
+        </div>
+        <div class="card-body">
+
+          <div class="row">
+            <button class="cb b-purple" id="btn-hash-dogrula" onclick="log('derlemeHashDogrula → kendiBuildHashim:'+v('hd-hash'))">derlemeHashDogrula</button>
+            <input class="inp inp-lg" id="hd-hash" placeholder="kendiBuildHashim">
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <button class="cb b-purple" id="btn-yetki-kontrol" onclick="log('yetkiKontrolüYap → sistemAdi:'+v('yk-sistem')+' kendiBuildHashim:'+v('yk-hash'))">yetkiKontrolüYap</button>
+            <input class="inp inp-md" id="yk-sistem" placeholder="sistemAdi">
+            <input class="inp inp-lg" id="yk-hash"   placeholder="kendiBuildHashim">
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /scroll-area -->
+
+    <!-- EDITOR -->
+    <div id="editor-panel">
+      <div id="resize-handle"></div>
+      <div class="editor-head">
+        <div class="etitle"><span style="color:#3fb950">●</span> Çıktı / Log Ekranı</div>
+        <div style="display:flex;gap:6px">
+          <button class="eclr" onclick="document.getElementById('out').value=''">✕ Temizle</button>
+          <button class="eclr" style="border-color:#238636;color:#3fb950;" onclick="kaydet()">💾 Kaydet</button>
+        </div>
+      </div>
+      <textarea id="out" readonly placeholder="► Butonlara basarak sonuçları burada görebilirsiniz..."></textarea>
+    </div>
+
+  </div><!-- /main-content -->
+
+  <div class="statusbar">
+    <div class="si"><div class="sdot"></div> Bağlı</div>
+    <div class="si">DB Manager</div>
+    <div class="si">v1.0.0</div>
+  </div>
+
+</div>
+<script src="dbmanager.js"></script>
+</body>
+</html>
