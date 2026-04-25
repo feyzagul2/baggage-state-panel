@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Logger</title>
+<link rel="stylesheet" href="logger.css">
+</head>
+<body>
+<div id="window">
+  <div id="titlebar">
+    <div class="tl">
+      <div class="ticon">📋</div>
+      <div class="ttitle">Logger — Log Yönetim Paneli</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="color:#484f58;font-size:10px;">v1.0.0</span>
+      <div class="wcs">
+        <div class="wc wc-n" onclick="toggleMin()"></div>
+        <div class="wc wc-m" onclick="toggleMax()"></div>
+        <div class="wc wc-x" onclick="document.getElementById('window').style.display='none'"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-content" id="mc">
+    <div class="scroll-area" id="scroll-area">
+
+      <!-- LOG YAZ -->
+      <div class="card card-write">
+        <div class="card-head card-head-write">
+          <div class="cdot cdot-blue"></div>
+          <div class="chtitle chtitle-blue">Log Yaz</div>
+        </div>
+        <div class="card-body">
+          <div class="row"><span class="lbl">bilgi</span><input class="inp inp-full" id="lw-bilgi" placeholder="bilgi"></div>
+          <div class="row"><span class="lbl">program</span><input class="inp inp-md" id="lw-program" placeholder="program"></div>
+          <div class="row"><span class="lbl">userAdi</span><input class="inp inp-md" id="lw-useradi" placeholder="userAdi"></div>
+          <div class="row"><span class="lbl">methodAdi</span><input class="inp inp-md" id="lw-method" placeholder="methodAdi"></div>
+          <div class="row"><span class="lbl">gonderilenParametre</span><textarea class="ta" id="lw-param" placeholder="gonderilenParametre"></textarea></div>
+          <div class="row"><span class="lbl">returnCevap</span><textarea class="ta" id="lw-return" placeholder="returnCevap"></textarea></div>
+          <div class="row">
+            <span class="lbl">logTipi</span>
+            <select class="inp inp-md" id="lw-logtipi" style="cursor:pointer">
+              <option value="INFO">INFO</option>
+              <option value="WARN">WARN</option>
+              <option value="ERROR">ERROR</option>
+              <option value="SUCCESS">SUCCESS</option>
+            </select>
+          </div>
+          <div class="row"><span class="lbl">ip_istenen</span><input class="inp inp-md" id="lw-ipistenen" placeholder="ip_istenen"></div>
+          <div class="row"><span class="lbl">ip_isteyen</span><input class="inp inp-md" id="lw-ipisteyen" placeholder="ip_isteyen"></div>
+          <div class="row"><span class="lbl">Oncelik</span><input class="inp inp-md" id="lw-oncelik" placeholder="1 - 5"></div>
+          <div class="row"><span class="lbl">timeoutSeconds</span><input class="inp inp-md" id="lw-timeout" placeholder="timeoutSeconds"></div>
+          <div class="divider"></div>
+          <div class="row">
+            <span class="lbl"></span>
+            <button class="cb b-blue" id="btn-log-yaz" onclick="logYaz()">📝 Log Yaz</button>
+            <button class="cb b-pink" id="btn-form-temizle" onclick="formTemizle()">🗑 Formu Temizle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- JSON -->
+      <div id="json-bar" class="card card-json">
+        <div class="card-head card-head-json">
+          <div class="cdot cdot-orange"></div>
+          <div class="chtitle chtitle-orange">JSON</div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <span class="lbl">JSON</span>
+            <textarea class="ta" id="json-input" placeholder="JSON yapıştırın veya JSON butonuyla yükleyin..."></textarea>
+          </div>
+          <div class="divider"></div>
+          <div class="row">
+            <span class="lbl"></span>
+            <button class="cb b-orange" id="btn-json" onclick="jsonYukle()">📂 JSON Yükle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOG GETİR BAR -->
+      <div class="card card-loggetir">
+        <div class="card-head card-head-loggetir">
+          <div class="cdot cdot-cyan"></div>
+          <div class="chtitle chtitle-cyan">Log Getir</div>
+          <div style="margin-left:auto;flex:1;display:flex;align-items:center;gap:6px;padding-left:12px">
+            <input class="inp" id="log-search" placeholder="🔍 ara..." style="flex:1;min-width:0;padding:3px 9px;font-size:11px" oninput="logAra(this.value)">
+            <button class="cb b-cyan" style="padding:3px 10px;font-size:10px;flex-shrink:0" onclick="logGetir()">🔄 Yenile</button>
+            <button class="cb b-red"  style="padding:3px 10px;font-size:10px;flex-shrink:0" onclick="logListTemizle()">✕ Temizle</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOG -->
+      <div class="card card-log">
+        <div class="card-head card-head-log">
+          <div class="cdot cdot-green"></div>
+          <div class="chtitle chtitle-green">Log</div>
+        </div>
+        <div class="card-body" style="padding:0;overflow-x:auto">
+          <table class="log-table">
+            <thead>
+              <tr>
+                <th>#</th><th>Zaman</th><th>logTipi</th><th>bilgi</th>
+                <th>program</th><th>userAdi</th><th>methodAdi</th>
+                <th>ip_isteyen</th><th>ip_istenen</th><th>Oncelik</th><th>timeoutSeconds</th>
+              </tr>
+            </thead>
+            <tbody id="log-tbody">
+              <tr><td colspan="11" style="text-align:center;color:#484f58;padding:20px">Henüz log yok</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- EDITOR -->
+    <div id="editor-panel">
+      <div id="resize-handle"></div>
+      <div class="editor-head">
+        <div class="etitle"><span style="color:#3fb950">●</span> Çıktı / Log Ekranı</div>
+        <div style="display:flex;gap:6px">
+          <button class="eclr" onclick="document.getElementById('out').value=''">✕ Temizle</button>
+          <button class="eclr" style="border-color:#238636;color:#3fb950;" onclick="kaydet()">💾 Kaydet</button>
+        </div>
+      </div>
+      <textarea id="out" readonly placeholder="► İşlem sonuçları burada gösterilir..."></textarea>
+    </div>
+  </div>
+
+  <div class="statusbar">
+    <div class="si"><div class="sdot"></div> Aktif</div>
+    <div class="si">Logger</div>
+    <div class="si" id="log-count">0 kayıt</div>
+  </div>
+</div>
+<script src="logger.js"></script>
+<script>
+  const _app = new TLoggerForm();
+  function toggleMin()      { _app.toggleMin(); }
+  function toggleMax()      { _app.toggleMax(); }
+  function logYaz()         { _app.logYaz(); }
+  function logGetir()       { _app.logGetir(); }
+  function logListTemizle() { _app.logListTemizle(); }
+  function formTemizle()    { _app.formTemizle(); }
+  function kaydet()         { _app.kaydet(); }
+
+  function logAra(q) { _app.logAra(q); }
+
+  function jsonYukle() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    input.onchange = e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        document.getElementById('json-input').value = ev.target.result;
+        _app.log('JSON dosyası yüklendi → ' + file.name);
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  }
+
+  function jsonLog() {
+    const raw = document.getElementById('json-input').value.trim();
+    if (!raw) { _app.log('JSON Log → alan boş'); return; }
+    let obj;
+    try {
+      obj = JSON.parse(raw);
+    } catch(e) {
+      _app.log('JSON Log → geçersiz JSON: ' + e.message);
+      return;
+    }
+    const arr = Array.isArray(obj) ? obj : [obj];
+    arr.forEach(item => {
+      const k = {
+        zaman:       new Date().toLocaleTimeString('tr-TR'),
+        bilgi:       item.bilgi       || item.message || item.info || '—',
+        program:     item.program     || item.app     || '—',
+        userAdi:     item.userAdi     || item.user    || '—',
+        methodAdi:   item.methodAdi   || item.method  || '—',
+        param:       item.param       || item.gonderilenParametre || '—',
+        returnCevap: item.returnCevap || item.response || '—',
+        logTipi:     item.logTipi     || item.level   || 'INFO',
+        ip_istened:  item.ip_istened  || '—',
+        ip_isteyen:  item.ip_isteyen  || '—',
+        oncelik:     item.oncelik     || item.priority || '—',
+        timeout:     item.timeout     || item.timeoutSeconds || '—',
+      };
+      _app.loglar.push(k);
+    });
+    _app.tabloGuncelle();
+    _app.log('JSON Log → ' + arr.length + ' kayıt eklendi');
+  }
+</script>
+</body>
+</html>
